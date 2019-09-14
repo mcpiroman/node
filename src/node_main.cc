@@ -103,6 +103,7 @@ int main(int argc, char* argv[]) {
   {
     struct sigaction act;
     memset(&act, 0, sizeof(act));
+    sigemptyset(&act.sa_mask);
     act.sa_handler = SIG_IGN;
     sigaction(SIGPIPE, &act, nullptr);
   }
