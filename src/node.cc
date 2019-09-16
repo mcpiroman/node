@@ -489,6 +489,7 @@ void TrapWebAssemblyOrContinue(int signo, siginfo_t* info, void* ucontext) {
     } else {
       // Reset to the default signal handler, i.e. cause a hard crash.
       struct sigaction sa;
+      memset(&sa, 0, sizeof(sa));
       sa.sa_handler = SIG_DFL;
       sigemptyset(&sa.sa_mask);
       sa.sa_flags = 0;
@@ -515,6 +516,7 @@ void RegisterSignalHandler(int signal,
   }
 #endif  // NODE_USE_V8_WASM_TRAP_HANDLER
   struct sigaction sa;
+  memset(&sa, 0, sizeof(sa));
   sa.sa_sigaction = handler;
   sigfillset(&sa.sa_mask);
   sa.sa_flags = reset_handler ? SA_RESETHAND : 0;
@@ -565,6 +567,7 @@ inline void PlatformInit() {
 #ifndef NODE_SHARED_MODE
   // Restore signal dispositions, the parent process may have changed them.
   struct sigaction act;
+  memset(&act, 0, sizeof(act));
   sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
 
@@ -617,6 +620,7 @@ inline void PlatformInit() {
   // and pass the signal context to V8.
   {
     struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
     sa.sa_sigaction = TrapWebAssemblyOrContinue;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;

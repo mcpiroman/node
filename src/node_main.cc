@@ -102,6 +102,7 @@ int main(int argc, char* argv[]) {
   // removed.
   {
     struct sigaction act;
+    memset(&act, 0, sizeof(act));
     act.sa_handler = SIG_IGN;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
