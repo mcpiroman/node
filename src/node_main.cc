@@ -105,7 +105,6 @@ int main(int argc, char* argv[]) {
     memset(&act, 0, sizeof(act));
     act.sa_handler = SIG_IGN;
     sigemptyset(&act.sa_mask);
-    act.sa_flags = 0;
     sigaction(SIGPIPE, &act, nullptr);
   }
 #endif

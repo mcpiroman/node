@@ -492,7 +492,6 @@ void TrapWebAssemblyOrContinue(int signo, siginfo_t* info, void* ucontext) {
       memset(&sa, 0, sizeof(sa));
       sa.sa_handler = SIG_DFL;
       sigemptyset(&sa.sa_mask);
-      sa.sa_flags = 0;
       CHECK_EQ(sigaction(signo, &sa, nullptr), 0);
 
       ResetStdio();
@@ -569,7 +568,6 @@ inline void PlatformInit() {
   struct sigaction act;
   memset(&act, 0, sizeof(act));
   sigemptyset(&act.sa_mask);
-  act.sa_flags = 0;
 
   // The hard-coded upper limit is because NSIG is not very reliable; on Linux,
   // it evaluates to 32, 34 or 64, depending on whether RT signals are enabled.
@@ -623,7 +621,6 @@ inline void PlatformInit() {
     memset(&sa, 0, sizeof(sa));
     sa.sa_sigaction = TrapWebAssemblyOrContinue;
     sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
     CHECK_EQ(sigaction(SIGSEGV, &sa, nullptr), 0);
   }
   V8::EnableWebAssemblyTrapHandler(false);
